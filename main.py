@@ -211,6 +211,12 @@ def post(post_id):
     return render_template("index-post.html", heading=requested_post.title, post=requested_post)
 
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
 @app.route('/under-development/<link>')
 def onDev(link):
     return render_template("Ondev.html", msg=link)
