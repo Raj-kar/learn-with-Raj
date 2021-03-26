@@ -79,6 +79,7 @@ class Assignments(db.Model):
     date = db.Column(db.String(250), nullable=False)
     body = db.Column(db.Text, nullable=False)
     
+## Create ONCE
 # db.create_all()
 
 
@@ -219,7 +220,7 @@ def logout():
 
 @app.route('/under-development/<link>')
 def onDev(link):
-    return render_template("Ondev.html", msg=link)
+    return render_template("develop.html", msg=link)
 
 
 
