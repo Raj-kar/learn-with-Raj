@@ -1,7 +1,9 @@
+from operator import countOf
 import os
 from random import randint
 from functools import wraps
 from datetime import date
+import re
 
 # Flask Import
 from flask import Flask, render_template, redirect, url_for, abort
@@ -39,9 +41,8 @@ login_manager.init_app(app)
 def load_user(user_id):
     return Student.query.get(int(user_id))
 
+
 # Create admin-only decorator
-
-
 def admin_only(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -83,13 +84,14 @@ class Assignments(db.Model):
 # db.create_all()
 
 
+## Index Route
 @app.route('/')
 def index():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     return redirect(url_for('python_registration'))
 
-
+## Registration Route
 @app.route('/python-registration', methods = ["POST", "GET"])
 def python_registration():
     if request.method == "POST":
@@ -127,9 +129,8 @@ def python_registration():
     return render_template("index.html")
 
 
+## Verify-Otp Route
 otp = None
-
-
 @app.route('/verify-otp/<std_name>/<std_email>/<std_password>', methods=["GET", "POST"])
 def verify_otp(std_name, std_email, std_password):
     global otp
@@ -163,6 +164,7 @@ def verify_otp(std_name, std_email, std_password):
     return render_template("email-verification.html", name=std_name, email=std_email, password=std_password)
 
 
+## Login Route
 @app.route('/login', methods=["POST"])
 def login():
     # Check if account not exits
@@ -184,6 +186,7 @@ def login():
         return redirect(url_for('index'))
 
 
+## Verify Password Route
 @app.route('/verify-password/<email>', methods=["POST", "GET"])
 def verify_password(email):
     if request.method == "POST":
@@ -199,6 +202,7 @@ def verify_password(email):
     return render_template("validate_password.html", std_email=email)
 
 
+## Home Route
 @app.route('/home-page')
 @login_required
 def home():
@@ -206,6 +210,7 @@ def home():
     return render_template("index-home.html", heading="Assigments", posts=assignments)
 
 
+## Post Route
 @app.route('/post/<int:post_id>')
 @login_required
 def post(post_id):
@@ -213,12 +218,50 @@ def post(post_id):
     return render_template("index-post.html", heading=requested_post.title, post=requested_post)
 
 
+@app.route('/search/search-post', methods=["GET", "POST"])
+def search_post():
+    if request.method == "GET":
+        return redirect(url_for('error404', route="Method-not-allowed"))
+    
+    if request.method == "POST":
+        search_key = request.form.get("keywords")
+        assignments = Assignments.query.all()
+        ass_list = []
+        count = 0
+        for each in assignments:
+            if search_key.lower() in each.title.lower():
+                count += 1
+                ass_list.append(each)
+                
+        return render_template("index-home.html", heading=f"Find {count} results on {search_key} .", posts=ass_list)
+
+
+@app.route('/search-indeep/search-post/<search_key>', methods=["GET", "POST"])
+def search_indeep(search_key):
+    if request.method == "GET":
+        return redirect(url_for('error404', route="Method-not-allowed"))
+    
+    if request.method == "POST":
+        assignments = Assignments.query.all()
+        ass_list = []
+        count = 0
+        for each in assignments:
+            if search_key.lower() in each.subtitle.lower() or search_key.lower() in each.body.lower():
+                count += 1
+                ass_list.append(each)
+
+        return render_template("index-home.html", heading=f"Find {count} results on {search_key}.", posts=ass_list)
+
+
+## Logout Route
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
 
+''' ONLY ADMIN  FEATURES '''
+## Create new Assignment Route
 @app.route('/create-assignment', methods=["POST", "GET"])
 @admin_only
 def create_assignment():
@@ -235,6 +278,12 @@ def create_assignment():
 
     return render_template("create-ass.html")
 
+
+
+
+
+
+## Errors Route
 
 @app.route('/<route>')
 def error404(route):

@@ -1,13 +1,16 @@
 <!-- Search Widget -->
 <div class="card my-4">
     <h5 class="card-header">Search</h5>
-    <div class="card-body">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for...">
-            <span class="input-group-append">
-                <button class="btn btn-primary" type="button"><a style="color: white;"
-                        href="{{ url_for('onDev', link='Search') }}">Go</a></button>
-            </span>
+    <form method="POST" action="{{ url_for('search_post') }}">
+        <div class="card-body">
+            <div class="input-group">
+                <input name="keywords" type="text" class="form-control" placeholder="Search for Assignment">
+                <span class="input-group-append">
+                    <a style="color: white;" href="{{ url_for('search_post') }}">
+                        <input type="submit" class="btn btn-primary" value="Go">
+                    </a>
+                </span>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
