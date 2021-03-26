@@ -218,6 +218,23 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/create-assignment', methods=["POST", "GET"])
+@admin_only
+def create_assignment():
+    if request.method == "POST":
+        title = request.form.get('title')
+        subtitle = request.form.get('subtitle')
+        body = request.form.get('body')
+
+        new_assignment = Assignments(title=title, subtitle=subtitle, body=body, author=current_user.name,
+                                     date=date.today().strftime("%B %d, %Y"))
+        db.session.add(new_assignment)
+        db.session.commit()
+        return redirect(url_for('home'))
+
+    return render_template("create-ass.html")
+
+
 @app.route('/under-development/<link>')
 def onDev(link):
     return render_template("develop.html", msg=link)
