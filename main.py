@@ -161,6 +161,43 @@ def verify_otp(std_name, std_email, std_password):
     return render_template("email-verification.html", name=std_name, email=std_email, password=std_password)
 
 
+@app.route('/login', methods=["POST"])
+def login():
+    # Check if account not exits
+    email = request.form.get("email")
+
+    verify_email = VerifyDetails(email=email)
+
+    if verify_email.verifyEmail():
+        all_stds = Student.query.all()
+        for std in all_stds:
+            if std.email == email:
+                name = std.name.split(" ")[0]
+                flash(f"Welcome back {name}.")
+                return redirect(url_for('verify_password', email=email))
+        flash("Register for a free account and start exploring.")
+        return redirect(url_for('index'))
+    else:
+        flash("Enter a valid email address")
+        return redirect(url_for('index'))
+
+
+@app.route('/verify-password/<email>', methods=["POST", "GET"])
+def verify_password(email):
+    if request.method == "POST":
+        password = request.form.get("password")
+        student = Student.query.filter_by(email=email).first()
+        if check_password_hash(student.password, password):
+            login_user(student)
+            # flash("LOGIN SUCESSFULLY !")
+            return redirect(url_for('home'))
+        else:
+            flash("WRONG PASSWORD !")
+
+    return render_template("validate_password.html", std_email=email)
+
+
+
 @app.route('/under-development/<link>')
 def onDev(link):
     return render_template("Ondev.html", msg=link)
