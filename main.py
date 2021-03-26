@@ -53,7 +53,7 @@ def admin_only(f):
         finally:
             # If id is not 1 then return abort with 403 error
             if current_user_id != 1:
-                return abort(403)
+                return redirect(url_for('admin_only'))
             # Otherwise continue with the route function
             return f(*args, **kwargs)
 
@@ -145,6 +145,7 @@ def verify_otp(std_name, std_email, std_password):
     if request.method == "POST":
         enter_otp = int(request.form.get("otp"))
         if enter_otp == otp:
+            otp = None
             new_student = Student(name=std_name, email=std_email,
                                   password=std_password, date_of_join=date.today().strftime("%B %d, %Y"))
             db.session.add(new_student)
@@ -233,6 +234,16 @@ def create_assignment():
         return redirect(url_for('home'))
 
     return render_template("create-ass.html")
+
+
+@app.route('/<route>')
+def error404(route):
+    return render_template("err.html", route=route)
+
+
+@app.route('/admin-only/forbidden')
+def admin_only():
+    return render_template("err.html", err = "forbidden")
 
 
 @app.route('/under-development/<link>')

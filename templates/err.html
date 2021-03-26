@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ route }} lost on space</title>
+    <style>
+        body {
+            background-color: #1b1717;
+        }
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 700px; height: 700px
+        }
+    </style>
+</head>
+<body>
+    {% if err == "forbidden" %} 
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        <lottie-player class="center" src="https://assets10.lottiefiles.com/packages/lf20_ttaj1ayc.json"
+            background="transparent"
+            speed="1" loop autoplay></lottie-player>
+    {% else %}
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        <lottie-player class="center" src="https://assets5.lottiefiles.com/packages/lf20_Cu88f9.json" background="transparent" speed="1"
+            loop autoplay></lottie-player>
+    {% endif %}
+</body>
+</html>
