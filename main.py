@@ -160,6 +160,13 @@ def verify_otp(std_name, std_email, std_password):
 
     return render_template("email-verification.html", name=std_name, email=std_email, password=std_password)
 
+
+@app.route('/under-development/<link>')
+def onDev(link):
+    return render_template("Ondev.html", msg=link)
+
+
+
 if __name__ == "__main__":
     # app.run(debug=True) # For Development 
     app.run()  # For Production TODO - change defore deploy
