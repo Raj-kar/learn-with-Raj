@@ -197,6 +197,19 @@ def verify_password(email):
     return render_template("validate_password.html", std_email=email)
 
 
+@app.route('/home-page')
+@login_required
+def home():
+    assignments = Assignments.query.all()
+    return render_template("index-home.html", heading="Assigments", posts=assignments)
+
+
+@app.route('/post/<int:post_id>')
+@login_required
+def post(post_id):
+    requested_post = Assignments.query.get(post_id)
+    return render_template("index-post.html", heading=requested_post.title, post=requested_post)
+
 
 @app.route('/under-development/<link>')
 def onDev(link):
