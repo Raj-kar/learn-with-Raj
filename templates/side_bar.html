@@ -1,0 +1,11 @@
+<!-- Side Widget -->
+<div class="card my-4">
+    <h5 class="card-header">Important Notices</h5>
+    <div class="card-body">
+        <ul>
+            {% for i in range(1,4) %}
+            <li><a href="{{ url_for('onDev', link='Notice') }}">Notice Number {{ i }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
