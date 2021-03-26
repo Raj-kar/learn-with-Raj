@@ -79,7 +79,7 @@ class Assignments(db.Model):
     date = db.Column(db.String(250), nullable=False)
     body = db.Column(db.Text, nullable=False)
     
-db.create_all()
+# db.create_all()
 
 
 @app.route('/')
