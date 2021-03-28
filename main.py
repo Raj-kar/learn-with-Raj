@@ -23,12 +23,12 @@ app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
 
 # Connect to DB Locally
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///students.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///students.db")
 # db = SQLAlchemy(app)
 
 # for server - TODO - active before deploy
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
@@ -224,33 +224,19 @@ def search_post():
         return redirect(url_for('error404', route="Method-not-allowed"))
     
     if request.method == "POST":
-        search_key = request.form.get("keywords")
+        search_key = request.form.get("keywords").lower()
         assignments = Assignments.query.all()
         ass_list = []
         count = 0
         for each in assignments:
-            if search_key.lower() in each.title.lower():
+            if search_key in each.title.lower() or search_key in each.subtitle.lower():
                 count += 1
                 ass_list.append(each)
-                
+            elif search_key in each.body.lower():
+                count += 1
+                ass_list.append(each)
+                    
         return render_template("index-home.html", heading=f"Find {count} results on {search_key} .", posts=ass_list)
-
-
-@app.route('/search-indeep/search-post/<search_key>', methods=["GET", "POST"])
-def search_indeep(search_key):
-    if request.method == "GET":
-        return redirect(url_for('error404', route="Method-not-allowed"))
-    
-    if request.method == "POST":
-        assignments = Assignments.query.all()
-        ass_list = []
-        count = 0
-        for each in assignments:
-            if search_key.lower() in each.subtitle.lower() or search_key.lower() in each.body.lower():
-                count += 1
-                ass_list.append(each)
-
-        return render_template("index-home.html", heading=f"Find {count} results on {search_key}.", posts=ass_list)
 
 
 ## Logout Route
@@ -309,5 +295,5 @@ def onDev(link):
 
 
 if __name__ == "__main__":
-    # app.run(debug=True) # For Development 
-    app.run()  # For Production TODO - change defore deploy
+    app.run(debug=True) # For Development 
+    # app.run()  # For Production TODO - change defore deploy

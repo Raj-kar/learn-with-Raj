@@ -41,19 +41,7 @@
       <!-- Sidebar Widgets Column -->
       
       <div class="col-md-4">
-        {% if request.url.split('/')[-1] == "search-post" %}
-          <form method="POST" action="{{ url_for('search_indeep', search_key= heading.split(' ')[-2] ) }}">
-            <div class="card-body">
-              <div class="input-group">
-                <span class="input-group-append">
-                  <a style="color: white;" href="{{ url_for('search_indeep', search_key= heading.split(' ')[-1]) }}">
-                    <input style="width: 15rem;" type="submit" class="btn btn-warning" value="Search Indeep">
-                  </a>
-                </span>
-              </div>
-            </div>
-          </form>
-        {% endif %}
+        
 
       {% include "search_bar.html" %}
       {% include "categories.html" %}
