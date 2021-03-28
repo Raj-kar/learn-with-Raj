@@ -10,8 +10,18 @@
               <a href="{{ url_for('post', post_id=post.id) }}" class="btn btn-primary">Show Assignment &rarr;</a>
             </div>
             <div class="card-footer text-muted">
-              Posted on {{ post.date }} by
-              <a target="_blank" href="https://raj-cv.herokuapp.com"">{{ post.author.split(" ")[0] }}</a>
+              <div class="row">
+                <div class="col-lg-6">
+                  Posted on {{ post.date }} by
+                  <a target="_blank" href="https://raj-cv.herokuapp.com"">{{ post.author.split(" ")[0] }}</a>
+                </div>
+                {% if current_user.id == 1 %}
+                  <div class="col-lg-6">
+                    <a href="{{ url_for('delete_assignment', post_id=post.id) }}" class="btn btn-danger">Delete
+                      Assignment</a>
+                  </div>
+                {% endif %}
+              </div>
             </div>
           </div>
         {% endfor %}

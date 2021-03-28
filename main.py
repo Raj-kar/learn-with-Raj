@@ -23,12 +23,12 @@ app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
 
 # Connect to DB Locally
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///students.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///students.db")
 # db = SQLAlchemy(app)
 
 # for server - TODO - active before deploy
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
@@ -279,6 +279,13 @@ def create_assignment():
     return render_template("create-ass.html")
 
 
+@app.route('/delete-assignment/<int:post_id>')
+@admin_only
+def delete_assignment(post_id):
+    assignment_to_delete = Assignments.query.get(post_id)
+    db.session.delete(assignment_to_delete)
+    db.session.commit()
+    return redirect(url_for('home'))
 
 
 
@@ -302,5 +309,5 @@ def onDev(link):
 
 
 if __name__ == "__main__":
-    # app.run(debug=True) # For Development 
-    app.run()  # For Production TODO - change defore deploy
+    app.run(debug=True) # For Development 
+    # app.run()  # For Production TODO - change defore deploy
