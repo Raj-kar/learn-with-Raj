@@ -297,6 +297,13 @@ def delete_assignment(post_id):
 
 
 
+@app.route('/table')
+@admin_only
+def show_table():
+    assignments = Assignments.query.all()
+    return render_template("test.html", posts=assignments)
+
+
 
 ## Errors Route
 

@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Show post table</title>
+    </head>
+    <body>
+        <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>author</th>
+                <th>title</th>
+                <th>subtitle</th>
+                <th>date</th>
+            </tr>
+            {% for post in posts %}
+            <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.author }}</td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.subtitle }}</td>
+                <td>{{ post.date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
