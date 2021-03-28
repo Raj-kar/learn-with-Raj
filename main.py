@@ -206,7 +206,7 @@ def verify_password(email):
 @app.route('/home-page')
 @login_required
 def home():
-    assignments = Assignments.query.all()
+    assignments = Assignments.query.order_by(Assignments.id.asc()) # asc
     return render_template("index-home.html", heading="Assigments", posts=assignments)
 
 
