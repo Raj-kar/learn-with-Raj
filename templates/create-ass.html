@@ -23,18 +23,20 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Assignment Title</label>
-                <input type="text" class="form-control" placeholder="Title" name="title" required>
+                <input type="text" class="form-control" placeholder="Title" name="title" value="{{ assignment.title }}"
+                    required>
             </div>
             <div class="form-group col-md-6">
                 <label>Assignment Subtitle</label>
-                <input type="text" class="form-control" placeholder="Subtitle" name="subtitle" required>
+                <input type="text" class="form-control" placeholder="Subtitle" name="subtitle" value="{{ assignment.subtitle }}"
+                    required>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="inputEmail4">Content</label>
                     <textarea name="body">
-                        Write your Assignment.
+                        {{ assignment.body }}
                     </textarea>
             </div>
         </div>

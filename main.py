@@ -262,7 +262,31 @@ def create_assignment():
         db.session.commit()
         return redirect(url_for('home'))
 
-    return render_template("create-ass.html")
+    return render_template("create-ass.html", assignment={
+        "title":"", "subtitle":"","body": "Write your assignment"
+        })
+
+
+@app.route('/edit-assignment/<int:post_id>', methods=["GET", "POST"])
+@admin_only
+def edit_assignment(post_id):
+    assignment_to_edit = Assignments.query.get(post_id)
+    
+    if request.method == "POST":
+        title = request.form.get('title')
+        subtitle = request.form.get('subtitle')
+        body = request.form.get('body')
+
+        assignment_to_update = Assignments.query.get(post_id)
+        assignment_to_update.title = title
+        assignment_to_update.subtitle = subtitle
+        assignment_to_update.body = body
+        
+        db.session.commit()  
+        return redirect(url_for('home'))
+    
+    
+    return render_template("create-ass.html", assignment=assignment_to_edit)
 
 
 @app.route('/delete-assignment/<int:post_id>')
