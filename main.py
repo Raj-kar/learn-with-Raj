@@ -23,12 +23,12 @@ app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
 
 # Connect to DB Locally
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///students.db")
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///students.db")
 # db = SQLAlchemy(app)
 
 # for server - TODO - active before deploy
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
@@ -309,5 +309,6 @@ def onDev(link):
 
 
 if __name__ == "__main__":
-    app.run(debug=True) # For Development 
-    # app.run()  # For Production TODO - change defore deploy
+    # app.run(debug=True) # For Development 
+    app.run()  # For Production TODO - change defore deploy
+# 
