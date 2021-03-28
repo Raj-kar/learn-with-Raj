@@ -4,7 +4,7 @@
     <form method="POST" action="{{ url_for('search_post') }}">
         <div class="card-body">
             <div class="input-group">
-                <input name="keywords" type="text" class="form-control" placeholder="Search for Assignment">
+                <input required name="keywords" type="text" class="form-control" placeholder="Search for Assignment">
                 <span class="input-group-append">
                     <a style="color: white;" href="{{ url_for('search_post') }}">
                         <input type="submit" class="btn btn-primary" value="Go">
