@@ -273,16 +273,14 @@ def edit_assignment(post_id):
     assignment_to_edit = Assignments.query.get(post_id)
     
     if request.method == "POST":
-        title = request.form.get('title')
-        subtitle = request.form.get('subtitle')
-        body = request.form.get('body')
+        # TODO - fix indexing issue after update a post
 
-        assignment_to_update = Assignments.query.get(post_id)
-        assignment_to_update.title = title
-        assignment_to_update.subtitle = subtitle
-        assignment_to_update.body = body
-        
+        assignment_to_update = Assignments.query.filter_by(id=post_id).first()
+        assignment_to_update.title = request.form.get('title')
+        assignment_to_update.subtitle = request.form.get('subtitle')
+        assignment_to_update.body = request.form.get('body')
         db.session.commit()  
+        
         return redirect(url_for('home'))
     
     

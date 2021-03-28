@@ -86,3 +86,4 @@ class SendOTP:
             connection.sendmail(from_addr=email, to_addrs={self.user_email},
                                 msg=self.msg.as_string())
             # print("send email")
+            
