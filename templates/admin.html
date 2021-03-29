@@ -1,6 +1,13 @@
 <html>
     <head>
-        <title>Show post table</title>
+        <title>Show table</title>
+
+        <!-- Icon links -->
+        <link rel="stylesheet" href="/static/css/font-awesome-4.7.0/css/font-awesome.min.css">
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+
     </head>
     <body>
         <table border="1">
@@ -15,6 +22,7 @@
                     <th>name</th>
                     <th>email</th>
                     <th>date of join</th>
+                    <th>remove</th>
                 {% endif %}
             </tr>
 
@@ -30,10 +38,25 @@
                     <td>{{ post.name }}</td>
                     <td>{{ post.email }}</td>
                     <td>{{ post.date_of_join }}</td>
+                    <td><a href="{{ url_for('delete_user', user_id = post.id) }}"><i class="fa fa-trash"
+                                aria-hidden="true"></i></a></td>
                 {% endif %}
             </tr>
             {% endfor %}
-            
         </table>
+
+        <br><br>
+
+        
+        
+
+        <div class="card text-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header">ADMIN PANEL</div>
+            <div class="card-body">
+                <a href="{{ url_for('create_assignment') }}">BACK TO ADMIN PORTAL</a><br>
+                <a href="{{ url_for('home') }}">BACK TO HOME PAGE</a>
+            </div>
+        </div>
+
     </body>
 </html>

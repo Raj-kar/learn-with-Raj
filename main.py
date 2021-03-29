@@ -264,7 +264,7 @@ def create_assignment():
 
     return render_template("create-ass.html", assignment={
         "title":"", "subtitle":"","body": "Write your assignment",
-        }, type="Add")
+    }, type="Add Assignment")
 
 
 @app.route('/edit-assignment/<int:post_id>', methods=["GET", "POST"])
@@ -284,7 +284,7 @@ def edit_assignment(post_id):
         return redirect(url_for('home'))
     
     
-    return render_template("create-ass.html", assignment=assignment_to_edit, type="Edit")
+    return render_template("create-ass.html", assignment=assignment_to_edit, type="Edit Assignment")
 
 
 @app.route('/delete-assignment/<int:post_id>')
@@ -296,18 +296,44 @@ def delete_assignment(post_id):
     return redirect(url_for('home'))
 
 
+@app.route('/delete-user/<int:user_id>')
+@admin_only
+def delete_user(user_id):
+    user_to_delete = Student.query.get(user_id)
+    db.session.delete(user_to_delete)
+    db.session.commit()
+    return redirect(url_for('show_student_table'))
+
+
+@app.route('/add-user', methods = ["POST", "GET"])
+@admin_only
+def add_user():
+    if request.method == "POST":
+        password = request.form.get("password")
+        new_student = Student(name=request.form.get("name"), email=request.form.get("email"),
+                              password=generate_password_hash(password=password,
+                                                              method='pbkdf2:sha256', salt_length=8), 
+                              date_of_join=date.today().strftime("%B %d, %Y"))
+        db.session.add(new_student)
+        db.session.commit()
+        return redirect(url_for('show_student_table'))
+    
+    return render_template("create-ass.html", assignment={
+        "title": "", "subtitle": "", "body": "",
+    }, type="Add User")
+
 
 @app.route('/posts-table')
 @admin_only
 def show_post_table():
     assignments = Assignments.query.all()
-    return render_template("test.html", posts=assignments, type="posts")
+    return render_template("admin.html", posts=assignments, type="posts")
 
 @app.route('/students-table')
 @admin_only
 def show_student_table():
     students = Student.query.all()
-    return render_template("test.html", posts=students, type="users")
+    return render_template("admin.html", posts=students, type="users")
 
 
 ## Errors Route
