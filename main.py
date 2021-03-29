@@ -297,12 +297,17 @@ def delete_assignment(post_id):
 
 
 
-@app.route('/table')
+@app.route('/posts-table')
 @admin_only
-def show_table():
+def show_post_table():
     assignments = Assignments.query.all()
-    return render_template("test.html", posts=assignments)
+    return render_template("test.html", posts=assignments, type="posts")
 
+@app.route('/students-table')
+@admin_only
+def show_student_table():
+    students = Student.query.all()
+    return render_template("test.html", posts=students, type="users")
 
 
 ## Errors Route
