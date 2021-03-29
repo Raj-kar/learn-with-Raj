@@ -153,7 +153,7 @@ def verify_otp(std_name, std_email, std_password):
             db.session.commit()
             
             # This line will authenticate the user with Flask-Login
-            login_user(new_student)
+            # login_user(new_student)
             
             flash("Registration Completed. Now you can Log In.")
             return redirect(url_for('index'))
@@ -263,8 +263,8 @@ def create_assignment():
         return redirect(url_for('home'))
 
     return render_template("create-ass.html", assignment={
-        "title":"", "subtitle":"","body": "Write your assignment"
-        })
+        "title":"", "subtitle":"","body": "Write your assignment",
+        }, type="Add")
 
 
 @app.route('/edit-assignment/<int:post_id>', methods=["GET", "POST"])
@@ -284,7 +284,7 @@ def edit_assignment(post_id):
         return redirect(url_for('home'))
     
     
-    return render_template("create-ass.html", assignment=assignment_to_edit)
+    return render_template("create-ass.html", assignment=assignment_to_edit, type="Edit")
 
 
 @app.route('/delete-assignment/<int:post_id>')
