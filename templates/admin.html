@@ -18,6 +18,8 @@
                     <th>title</th>
                     <th>subtitle</th>
                     <th>date</th>
+                    <th>edit</th>
+                    <th>remove</th>
                 {% else %}
                     <th>name</th>
                     <th>email</th>
@@ -34,6 +36,12 @@
                     <td>{{ post.title }}</td>
                     <td>{{ post.subtitle }}</td>
                     <td>{{ post.date }}</td>
+                    <td><a href="{{ url_for('edit_assignment', post_id=post.id) }}">
+                            <i class="fa fa-edit" aria-hidden="true">
+                        </a></td>
+                    <td><a href="{{ url_for('delete_assignment', post_id=post.id) }}">
+                        <i class="fa fa-trash" aria-hidden="true">
+                    </a></td>
                 {% else %}
                     <td>{{ post.name }}</td>
                     <td>{{ post.email }}</td>
@@ -46,9 +54,6 @@
         </table>
 
         <br><br>
-
-        
-        
 
         <div class="card text-dark mb-3" style="max-width: 18rem;">
             <div class="card-header">ADMIN PANEL</div>

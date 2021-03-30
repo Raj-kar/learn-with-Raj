@@ -54,18 +54,18 @@
 
             <div class="segment">
                 <button class="unit" type="button">
-                    <a href="https://raj-cv.herokuapp.com" target="_blank">
-                        <i class="icon fa fa-user-circle-o"></i>
+                    <a href="{{ url_for('github_login') }}">
+                        <i style="color: #180D06;" class="icon fa fa-github"></i>
                     </a>    
                 </button>
                 <button class="unit" type="button">
-                    <a href="{{ url_for('onDev', link='Query') }}" target="_blank">
-                        <i class="icon fa fa-question"></i>
+                    <a href="{{ url_for('onDev', link='Google login') }}" target="_blank">
+                        <i style="color: #49B164;" class="icon fa fa-google"></i>
                     </a>
                 </button>
-                <button class="unit" type="button">
-                    <a href="https://github.com/Raj-kar" target="_blank">
-                        <i class="icon fa fa-github"></i>
+                <button class="unit" type="button" >
+                    <a href="{{ url_for('onDev', link='Twitter login') }}" target="_blank">
+                        <i style="color: #1DA1F2;" class="icon fa fa-twitter"></i>
                     </a>
                 </button>
             </div>

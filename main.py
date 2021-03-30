@@ -1,4 +1,3 @@
-from operator import countOf
 import os
 from random import randint
 from functools import wraps
@@ -6,16 +5,21 @@ from datetime import date
 import re
 
 # Flask Import
-from flask import Flask, render_template, redirect, url_for, abort
+from flask import Flask, render_template, redirect, url_for
 from flask.globals import request
 from flask.helpers import flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_dance.contrib.github import make_github_blueprint, github
+
+# For Github local authentication !
+# os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 # My Modules import
 from verifyDetails import VerifyDetails
 from verify_otp import SendOTP
+from keys import client_id, client_secret
 
 
 app = Flask(__name__)
@@ -31,6 +35,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+# Github Register
+github_blueprint = make_github_blueprint(
+    client_id='3fbe086b3f72ecea50ab', client_secret='faf7517911656b56bc4eb350b007d0db1db1dac5')
+
+app.register_blueprint(github_blueprint, url_prefix='/github_login')
 
 # Login Manager
 login_manager = LoginManager()
@@ -89,6 +98,8 @@ class Assignments(db.Model):
 def index():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
+    if github.authorized:
+        return redirect(url_for('github_login'))
     return redirect(url_for('python_registration'))
 
 ## Registration Route
@@ -202,6 +213,32 @@ def verify_password(email):
     return render_template("validate_password.html", std_email=email)
 
 
+@app.route('/github')
+def github_login():
+    if not github.authorized:
+        return redirect(url_for("github.login"))
+
+    account_info = github.get('/user')
+
+    if account_info.ok:
+        account_info_json = account_info.json()
+        
+        all_stds = Student.query.all()
+        for std in all_stds:
+            if std.email == account_info_json['login']:
+                login_user(std)
+                return redirect(url_for('home'))
+        
+        new_student = Student(name=account_info_json['name'], email=account_info_json['login'],
+                              password=account_info_json['id'], date_of_join=date.today().strftime("%B %d, %Y"))
+        db.session.add(new_student) 
+        db.session.commit()
+        
+        # This line will authenticate the user with Flask-Login
+        login_user(new_student)
+        return redirect(url_for('home'))
+
+
 ## Home Route
 @app.route('/home-page')
 @login_required
@@ -242,6 +279,7 @@ def search_post():
 ## Logout Route
 @app.route('/logout')
 def logout():
+    del app.blueprints['github'].token
     logout_user()
     return redirect(url_for('index'))
 
