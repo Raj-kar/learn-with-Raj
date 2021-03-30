@@ -213,7 +213,7 @@ def verify_password(email):
     return render_template("validate_password.html", std_email=email)
 
 
-@app.route('python-registration/github')
+@app.route('/python-registration/github')
 def github_login():
     if not github.authorized:
         return redirect(url_for("github.login"))
