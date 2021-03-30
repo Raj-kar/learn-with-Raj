@@ -14,7 +14,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_dance.contrib.github import make_github_blueprint, github
 
 # For Github local authentication !
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+# os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 # My Modules import
 from verifyDetails import VerifyDetails
@@ -27,17 +27,17 @@ app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
 
 # Connect to DB Locally
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///students.db")
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///students.db")
 # db = SQLAlchemy(app)
 
 # for server - TODO - active before deploy
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Github Register
 github_blueprint = make_github_blueprint(
-    client_id='3fbe086b3f72ecea50ab', client_secret='faf7517911656b56bc4eb350b007d0db1db1dac5')
+    client_id=client_id, client_secret=client_secret)
 
 app.register_blueprint(github_blueprint, url_prefix='/github_login')
 
@@ -394,5 +394,5 @@ def onDev(link):
 
 
 if __name__ == "__main__":
-    app.run(debug=True) # For Development 
-    # app.run()  # For Production TODO - change defore deploy
+    # app.run(debug=True) # For Development 
+    app.run()  # For Production TODO - change defore deploy
