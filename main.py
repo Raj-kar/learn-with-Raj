@@ -12,6 +12,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_dance.contrib.github import make_github_blueprint, github
+from flask_dance.contrib.google import make_google_blueprint, google
 
 # For Github local authentication !
 # os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -19,7 +20,7 @@ from flask_dance.contrib.github import make_github_blueprint, github
 # My Modules import
 from verifyDetails import VerifyDetails
 from verify_otp import SendOTP
-from keys import client_id, client_secret
+from keys import git_client_id, git_client_secret, google_client_id, google_client_secret
 
 
 app = Flask(__name__)
@@ -37,9 +38,13 @@ db = SQLAlchemy(app)
 
 # Github Register
 github_blueprint = make_github_blueprint(
-    client_id=client_id, client_secret=client_secret)
-
+    client_id=git_client_id, client_secret=git_client_secret)
 app.register_blueprint(github_blueprint, url_prefix='/github_login')
+
+# Google register
+google_blueprint = make_google_blueprint(
+    client_id=google_client_id, client_secret=google_client_secret, scope=["profile", "email"])
+app.register_blueprint(google_blueprint, url_prefix="/login")
 
 # Login Manager
 login_manager = LoginManager()
@@ -237,7 +242,19 @@ def github_login():
         # This line will authenticate the user with Flask-Login
         login_user(new_student)
         return redirect(url_for('home'))
+    
 
+@app.route('/google')
+def google_login():
+    if not google.authorized:
+        return redirect(url_for("google.login"))
+    
+    account_info = google.get("/plus/v1/people/me")
+
+    if account_info.ok:
+        account_info_json = account_info.json()
+        return "You are {email} on Google".format(email=account_info_json.json()["emails"][0]["value"])
+    
 
 ## Home Route
 @app.route('/home-page')
