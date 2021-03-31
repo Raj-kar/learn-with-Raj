@@ -392,5 +392,6 @@ def onDev(link):
 
 
 if __name__ == "__main__":
-    app.run(debug=True) # For Development 
-    # app.run()  # For Production TODO - change defore deploy
+    # app.run(debug=True) # For Development 
+    app.run()  # For Production TODO - change defore deploy
+ 
