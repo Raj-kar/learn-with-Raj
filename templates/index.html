@@ -12,6 +12,10 @@
         <!-- JQuery CDN -->
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
             integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+        
+        <!-- manifest -->
+        <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+        
     </head>
     <body>
         <!-- Resgistration Form -->
@@ -40,7 +44,8 @@
                 <i class="icon fa fa-lock"></i>
                 Register
             </button>
-            
+            <br>
+
              <!-- Error message -->
              {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -50,7 +55,7 @@
                 {% endif %}
              {% endwith %}
 
-            <!-- Important Links -->
+            <!-- Registration Options -->
 
             <div class="segment">
                 <button class="unit" type="button">
@@ -72,6 +77,11 @@
         
         </form>
 
+        <!-- Install Button -->
+        <button id="installButton" href="#">
+            Install as an App
+        </button>
+        
         <!-- Login Form -->
         <form method="post" action="{{ url_for('login') }}">
             <div class="segment-bottom">
@@ -88,7 +98,7 @@
             </div>
             
         </form>
-
+        <script type="text/javascript" src="{{ url_for('static', filename='js/install.js') }}"></script>
         <!-- SCRIPT FOR TEST BUTTONS -->
         <script>
             function testButton() {
@@ -97,5 +107,6 @@
         </script>
         <!-- Script for  Show and Hide password-->
         <script src="/static/js/password.js"></script>
+        <script src="/static/js/app.js"></script>
     </body>
 </html>

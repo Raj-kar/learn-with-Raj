@@ -1,0 +1,21 @@
+{
+  "name": "PyRaj",
+  "short_name": "Py-Raj",
+  "theme_color": "#CBD394",
+  "background_color": "#F1F7C6",
+  "icons": [
+    {
+        "src": "/static/icons/icon_1.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      },
+      {
+        "src": "/static/icons/icon_2.png",
+        "type": "image/png",
+        "sizes": "240x240"
+      }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

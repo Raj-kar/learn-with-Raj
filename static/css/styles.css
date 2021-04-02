@@ -137,3 +137,11 @@ button.red {
     margin-top: -2.0rem;
     margin-right: 1rem;
 }
+
+#installButton {
+    width: 10rem;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    color: #2f2187;
+}
