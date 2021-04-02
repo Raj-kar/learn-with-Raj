@@ -171,6 +171,10 @@ def verify_otp(std_name, std_email, std_password):
             flash("OTP mismatched, another OTP send to your email address.")
             return redirect(url_for('verify_otp', std_name=std_name, std_email=std_email, std_password=std_password))
 
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    if github.authorized:
+        return redirect(url_for('github_login'))
     return render_template("email-verification.html", name=std_name, email=std_email, password=std_password)
 
 
