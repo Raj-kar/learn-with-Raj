@@ -381,8 +381,10 @@ def sw():
 
 ## Errors Route
 
-@app.route('/err/<route>')
+@app.route('/<route>')
 def error404(route):
+    if route == 'python-registration':
+        return redirect(url_for('python_registration'))
     return render_template("err.html", route=route)
 
 
