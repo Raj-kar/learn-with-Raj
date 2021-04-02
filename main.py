@@ -114,7 +114,7 @@ def python_registration():
         for std in all_stds:
             if std.email == email:
                 flash("You already have an account. Please Log In.")
-                return redirect(url_for('index'))
+                return redirect(url_for('python_registration'))
         
         # Verify Name, Email and Password of REGEX !
         verifyData = VerifyDetails(name, email, password)
