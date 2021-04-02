@@ -166,7 +166,7 @@ def verify_otp(std_name, std_email, std_password):
             # login_user(new_student)
             
             flash("Registration Completed. Now you can Log In.")
-            return redirect(url_for('index'))
+            return redirect(url_for('python_registration'))
         else:
             flash("OTP mismatched, another OTP send to your email address.")
             return redirect(url_for('verify_otp', std_name=std_name, std_email=std_email, std_password=std_password))
