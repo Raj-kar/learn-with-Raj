@@ -381,7 +381,7 @@ def sw():
 
 ## Errors Route
 
-@app.route('/<route>')
+@app.route('/err/<route>')
 def error404(route):
     return render_template("err.html", route=route)
 
