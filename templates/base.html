@@ -16,10 +16,15 @@
 
     <!-- manifest -->
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    
+
 </head>
 
 <body>
+    <!-- loading screen -->
+    <div class="loader">
+        <img src="/static/icons/index_animation.gif" alt="loading....">
+    </div>
+
     <!-- Resgistration Form -->
     <form method="POST" action={% block action %}
         {{ url_for('verify_otp', std_name = name, std_email=email, std_password=password) }} 
@@ -101,7 +106,9 @@
 
     <!-- Script for  Show and Hide password-->
     <script src="/static/js/password.js"></script>
-    <script src="/static/js/app.js"></script>
+
+    <!-- Script for animation when page loading -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/page_animation.js') }}"></script>
 </body>
 
 </html>

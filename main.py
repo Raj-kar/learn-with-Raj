@@ -321,7 +321,7 @@ def search_post():
                 count += 1
                 ass_list.append(each)
 
-        return render_template("index-home.html", heading=f"Find {count} results on {search_key} .", posts=ass_list)
+        return render_template("home.html", heading=f"Find {count} results on {search_key} .", posts=ass_list)
 
 
 # Logout Route

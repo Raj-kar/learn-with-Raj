@@ -153,3 +153,34 @@ button.red {
     color: #ae1100;
     display: none;
 }
+
+.loader {
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+.loader>img {
+    margin: auto;
+    width: 30rem;
+    height: 30rem;
+}
+
+.loader.hidden {
+    animation: fadeOut 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeOut {
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
