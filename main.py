@@ -130,11 +130,6 @@ def register():
             return redirect(url_for('verify_otp', std_name=name, std_email=email, std_password=hashed_password))
             
         return render_template("registration.html",name=name, email=email, password=password)
-
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    if github.authorized:
-        return redirect(url_for('github_login'))
     
     return render_template("registration.html")
 
@@ -224,7 +219,8 @@ def github_login():
         
         # This line will authenticate the user with Flask-Login
         login_user(new_student)
-        return redirect(url_for('home'))
+        flash("Sign in with Github sucessfull.")
+        return redirect(url_for('register'))
 
 ## Home Route
 @app.route('/home-page')
