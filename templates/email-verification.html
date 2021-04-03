@@ -1,68 +1,24 @@
-<html>
+{% extends 'base.html' %}
+{% block title %} verify otp {% endblock %}
+{% block heading %} Verify OTP {% endblock %}
+{% block action %} {{ url_for('verify_otp', std_name = name, std_email=email, std_password=password) }} {% endblock %}
 
-<head>
-    <title>Python Registration</title>
-    <!-- For Responsive -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- FavIcon -->
-    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon" />
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="/static/css/font-awesome-4.7.0/css/font-awesome.min.css">
-</head>
+{% block form %}
+<label>
+    <input type="text" placeholder="OTP" name="otp" required />
+</label>
+{% endblock %}
 
-<body>
-    <!-- Resgistration Form -->
-    <form method="post"
-        action="{{ url_for('verify_otp', std_name = name, std_email=email, std_password=password) }}">
+{% block button %}
+<button class="red" type="submit"
+    onclick="{{ url_for('verify_otp', std_name = name, std_email=email, std_password=password) }}">
+    <i class="icon fa fa-key"></i>
+    Verify
+</button>
+{% endblock %}
 
-        <div class="segment">
-            <h1>Verify Your Email</h1>
-        </div>
-
-        <!-- Error message -->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <div class="h6" style="color: #2f2187; opacity: 3; text-align: center; padding-bottom: 1rem;">
-            <em>{{ messages[0] }}</em>
-        </div>
-        {% endif %}
-        {% endwith %}
-
-
-        <label>
-            <input type="text" placeholder="OTP" name="otp" required />
-        </label>
-
-        <!-- Register Button -->
-        <button class="red" type="submit"
-            onclick="{{ url_for('verify_otp', std_name = name, std_email=email, std_password=password) }}">
-            <i class="icon fa fa-key"></i>
-            Verify
-        </button>
-
-        <!-- Important Links -->
-
-        <div class="segment">
-            <button class="unit" type="button">
-                <a href="https://raj-cv.herokuapp.com" target="_blank">
-                    <i class="icon fa fa-user-circle-o"></i>
-                </a>
-            </button>
-            <button class="unit" type="button">
-                <a href="querys.html" target="_blank">
-                    <i class="icon fa fa-question"></i>
-                </a>
-            </button>
-            <button class="unit" type="button">
-                <a href="https://github.com/Raj-kar" target="_blank">
-                    <i class="icon fa fa-github"></i>
-                </a>
-            </button>
-        </div>
-
-    </form>
-</body>
-
-</html>
+{% block link %}
+<div style="text-align:center">
+    <a style="font-weight: bold;" href="{{ url_for('register') }}">Forgot your Password</a>
+</div>
+{% endblock %}

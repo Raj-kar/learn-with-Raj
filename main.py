@@ -1,7 +1,9 @@
+from enum import EnumMeta
 import os
 from random import randint
 from functools import wraps
 from datetime import date
+import re
 
 # Flask Import
 from flask import Flask, render_template, redirect, url_for
@@ -95,15 +97,11 @@ class Assignments(db.Model):
 ## Index Route
 @app.route('/')
 def index():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    if github.authorized:
-        return redirect(url_for('github_login'))
-    return redirect(url_for('python_registration'))
+    return render_template("index.html")
 
 ## Registration Route
 @app.route('/python-registration', methods = ["POST", "GET"])
-def python_registration():
+def register():
     if request.method == "POST":
         name = request.form.get("name")
         email = request.form.get("email")
@@ -114,7 +112,7 @@ def python_registration():
         for std in all_stds:
             if std.email == email:
                 flash("You already have an account. Please Log In.")
-                return redirect(url_for('python_registration'))
+                return redirect(url_for('login'))
         
         # Verify Name, Email and Password of REGEX !
         verifyData = VerifyDetails(name, email, password)
@@ -131,12 +129,14 @@ def python_registration():
 
             return redirect(url_for('verify_otp', std_name=name, std_email=email, std_password=hashed_password))
             
-        return render_template("index.html",name=name, email=email, password=password)
-    
+        return render_template("registration.html",name=name, email=email, password=password)
+
     if current_user.is_authenticated:
         return redirect(url_for('home'))
+    if github.authorized:
+        return redirect(url_for('github_login'))
     
-    return render_template("index.html")
+    return render_template("registration.html")
 
 
 ## Verify-Otp Route
@@ -156,64 +156,49 @@ def verify_otp(std_name, std_email, std_password):
     if request.method == "POST":
         enter_otp = int(request.form.get("otp"))
         if enter_otp == otp:
-            otp = None
             new_student = Student(name=std_name, email=std_email,
                                   password=std_password, date_of_join=date.today().strftime("%B %d, %Y"))
             db.session.add(new_student)
             db.session.commit()
             
             # This line will authenticate the user with Flask-Login
-            # login_user(new_student)
+            login_user(new_student)
             
-            flash("Registration Completed. Now you can Log In.")
-            return redirect(url_for('python_registration'))
+            return redirect(url_for('home'))
         else:
             flash("OTP mismatched, another OTP send to your email address.")
             return redirect(url_for('verify_otp', std_name=std_name, std_email=std_email, std_password=std_password))
 
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    if github.authorized:
-        return redirect(url_for('github_login'))
     return render_template("email-verification.html", name=std_name, email=std_email, password=std_password)
 
 
 ## Login Route
-@app.route('/login', methods=["POST"])
+@app.route('/login', methods=["POST", "GET"])
 def login():
-    # Check if account not exits
-    email = request.form.get("email")
-
-    verify_email = VerifyDetails(email=email)
-
-    if verify_email.verifyEmail():
-        all_stds = Student.query.all()
-        for std in all_stds:
-            if std.email == email:
-                name = std.name.split(" ")[0]
-                flash(f"Welcome back {name}.")
-                return redirect(url_for('verify_password', email=email))
-        flash("Register for a free account and start exploring.")
-        return redirect(url_for('index'))
-    else:
-        flash("Enter a valid email address")
-        return redirect(url_for('index'))
-
-
-## Verify Password Route
-@app.route('/verify-password/<email>', methods=["POST", "GET"])
-def verify_password(email):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    if github.authorized:
+        return redirect(url_for('github_login'))
+    
     if request.method == "POST":
-        password = request.form.get("password")
-        student = Student.query.filter_by(email=email).first()
-        if check_password_hash(student.password, password):
-            login_user(student)
-            # flash("LOGIN SUCESSFULLY !")
-            return redirect(url_for('home'))
+        email = request.form.get("email")
+        
+        verify_email = VerifyDetails(email=email)
+        if verify_email.verifyEmail() == True:
+            all_stds = Student.query.all()
+            for std in all_stds:
+                if std.email == email:
+                    user_pass = request.form.get("password") 
+                    if check_password_hash(std.password, user_pass):
+                        login_user(std)
+                        return redirect(url_for('home'))
+            flash("Register for a free account and start exploring.")
+            return redirect(url_for('register'))
         else:
-            flash("WRONG PASSWORD !")
-
-    return render_template("validate_password.html", std_email=email)
+            flash("Enter a valid email address")
+            return redirect(url_for('login'))
+    
+    return render_template("login.html")
 
 
 @app.route('/github')
@@ -246,7 +231,7 @@ def github_login():
 @login_required
 def home():
     assignments = Assignments.query.order_by(Assignments.id.asc()) # asc
-    return render_template("index-home.html", heading="Assigments", posts=assignments)
+    return render_template("home.html", heading="Assigments", posts=assignments)
 
 
 ## Post Route
@@ -254,7 +239,7 @@ def home():
 @login_required
 def post(post_id):
     requested_post = Assignments.query.get(post_id)
-    return render_template("index-post.html", heading=requested_post.title, post=requested_post)
+    return render_template("post.html", heading=requested_post.title, post=requested_post)
 
 
 @app.route('/search/search-post', methods=["GET", "POST"])
@@ -377,12 +362,12 @@ def show_student_table():
     return render_template("admin.html", posts=students, type="users")
 
 
-# PWA
+# Service worker route
 @app.route('/service-worker.js')
 def sw():
     return app.send_static_file('service-worker.js')
 
-
+    
 ## Errors Route
 
 @app.route('/<route>')

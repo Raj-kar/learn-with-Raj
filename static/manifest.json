@@ -15,7 +15,7 @@
         "sizes": "240x240"
       }
   ],
-  "start_url": "/python-registration",
+  "start_url": "/",
   "display": "standalone",
   "orientation": "portrait"
 }

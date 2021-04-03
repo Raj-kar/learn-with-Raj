@@ -1,0 +1,86 @@
+<html>
+
+<head>
+    <title>{% block title %} Index {% endblock %}</title>
+    <!-- For Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- FavIcon -->
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon" />
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="/static/css/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!-- JQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+
+    <!-- manifest -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+
+</head>
+
+<body>
+    <!-- Resgistration Form -->
+    <form method="post" action={% block action %} action {% endblock %}>
+
+        <!-- Heading -->
+        <div class="segment">
+            <h1>{% block heading %} heading {% endblock %}</h1>
+        </div>
+
+        <!-- main form -->
+        {% block form %}{% endblock %}
+        
+        <!-- Login Button -->
+        {% block button %} <button></button> {% endblock %}
+        
+        <br>
+        
+        <!-- link tag -->
+        {% block link %} <a href=""></a> {% endblock %}
+
+        <!-- Error message -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="h6" style="color: #49B164; font-weight: 700; opacity: 3; text-align: center; padding-top: 1rem;">
+            <em>{{ messages[0] }}</em>
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Registration Options -->
+
+        <div class="segment">
+            <button class="unit" type="button">
+                <a href="{{ url_for('github_login') }}">
+                    <i style="color: #180D06;" class="icon fa fa-github"></i>
+                </a>
+            </button>
+            <button class="unit" type="button">
+                <a href="#" target="_blank">
+                    <i style="color: #49B164;" class="icon fa fa-google"></i>
+                </a>
+            </button>
+            <button class="unit" type="button">
+                <a href="{{ url_for('onDev', link='fb login') }}" target="_blank">
+                    <i style="color: #4867AA;" class="icon fa fa-facebook"></i>
+                </a>
+            </button>
+        </div>
+
+    </form>
+
+    <!-- Install Button -->
+    <button id="installButton" href="#">
+        Install as an App
+    </button>
+
+    <!-- Install workbox -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/install.js') }}"></script>
+
+    <!-- Script for  Show and Hide password-->
+    <script src="/static/js/password.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>

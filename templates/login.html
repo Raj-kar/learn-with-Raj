@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %} python login {% endblock %}
+{% block heading %} Python Login {% endblock %}
+{% block action %} {{ url_for('login') }} {% endblock %}
+
+{% block form %}
+<label>
+    <input type="text" placeholder="Email" name="email" value="{{ email }}" required />
+</label>
+<label>
+    <div>
+        <input id="password-field" type="password" placeholder="Password" name="password" value="{{ password }}"
+            required />
+        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+    </div>
+</label>
+{% endblock %}
+
+{% block button %}
+<button class="red" type="submit" onclick="{{ url_for('index') }}">
+    <i class="icon fa fa-lock"></i>
+    Login
+</button>
+{% endblock %}
+
+{% block link %}
+<div style="text-align:center">
+    <a style="font-weight: bold;" href="{{ url_for('register') }}">Register for a new account</a>
+</div>
+{% endblock %}

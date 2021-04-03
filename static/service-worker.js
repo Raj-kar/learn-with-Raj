@@ -7,7 +7,7 @@ if (workbox) {
 
     workbox.precaching.precacheAndRoute([
         {
-            "url": "/python-registration",
+            "url": "/",
             "revision": "1"
         }
     ]);

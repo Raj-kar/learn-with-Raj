@@ -1,112 +1,190 @@
-<html>
-    <head> 
-        <title>Python Registration</title>
-        <!-- For Responsive -->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- FavIcon -->
-        <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon" />
-        <!-- Main CSS -->
-        <link rel="stylesheet" href="../static/css/styles.css">
-        <!-- Font Awesome CSS -->
-        <link rel="stylesheet" href="../static/css/font-awesome-4.7.0/css/font-awesome.min.css">
-        <!-- JQuery CDN -->
-        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
-            integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-        
-        <!-- manifest -->
-        <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-        
-    </head>
-    <body>
-        <!-- Resgistration Form -->
-        <form method="post" action="{{ url_for('python_registration') }}">
+<!DOCTYPE html>
+<html lang="en">
 
-            <div class="segment">
-                <h1>Python Registration</h1>
-            </div>
+<head>
+    <title>Python with Raj</title>
 
-            <label>
-                <input type="text" placeholder="Name" name="name" value="{{ name }}" required/>
-            </label>
-            <label>
-                <input type="text" placeholder="Email" name="email" value="{{ email }}" required />
-            </label>
-            <label>
-                <div>
-                    <input id="password-field" type="password" placeholder="Password" name="password"
-                        value="{{ password }}" required />
-                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bootstrap 4 Book/eBook Landing Page Template For Developers">
+    <meta name="author" content="Xiaoying Riley at 3rd Wave Media">
+    <link rel="shortcut icon" href="/static/images/favicon.ico">
+
+    <!-- manifest -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:700|Roboto:400,400i,700&display=swap"
+        rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="/static/css/theme.css">
+
+</head>
+
+<body>
+    <header class="header">
+        <div class="branding">
+            <div class="container-fluid position-relative py-3">
+                <div class="logo-wrapper">
+                    <div class="site-logo"><a class="navbar-brand" href="index.html"><img class="logo-icon mr-2"
+                                src="/static/images/index-icon.svg" alt="logo"><span class="logo-text">PyRaj</span></a>
+                    </div>
                 </div>
-            </label>
+                <!--//docs-logo-wrapper-->
 
-            <!-- Register Button -->
-            <button class="red" type="submit" onclick="{{ url_for('index') }}">
-                <i class="icon fa fa-lock"></i>
-                Register
-            </button>
+            </div>
+            <!--//container-->
+        </div>
+        <!--//branding-->
+    </header>
+    <!--//header-->
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-7 pt-5 mb-5 align-self-center">
+                    <div class="promo pr-md-3 pr-lg-5">
+                        <h1 class="headline mb-3">
+                            Start Learning Today <br>with Raj
+                        </h1>
+                        <!--//headline-->
+                        <div class="subheadline mb-4">
+                            A free developer website for learniing and share your knowledge.
+
+                        </div>
+                        <!--//subheading-->
+
+                        <div class="cta-holder">
+                            <a class="btn btn-primary mr-lg-2"
+                                href="{{ url_for('register') }}">Register
+                                Now</a>
+                            <a class="btn btn-secondary" href="{{ url_for('login') }}">Login</a>
+
+                        </div>
+                        <!--//cta-holder-->
+
+                        <div class="hero-quotes mt-5">
+                            <div id="quotes-carousel" class="quotes-carousel carousel slide carousel-fade mb-5"
+                                data-ride="carousel" data-interval="8000">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#quotes-carousel" data-slide-to="0" class="active"></li>
+                                    <li data-target="#quotes-carousel" data-slide-to="1"></li>
+                                    <li data-target="#quotes-carousel" data-slide-to="2"></li>
+                                </ol>
+
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <blockquote class="quote p-4 theme-bg-light">
+                                            "Excellent Class! Add your book reviews here consectetur adipiscing elit.
+                                            Aliquam euismod nunc porta urna facilisis tempor. Praesent mauris neque,
+                                            viverra quis erat vitae, auctor imperdiet nisi."
+                                        </blockquote>
+                                        <!--//item-->
+                                        <div class="source media flex-column flex-md-row align-items-center">
+                                            <img class="source-profile mr-md-3"
+                                                src="/static/images/profiles/profile-1.png" alt="image">
+                                            <div class="source-info media-body text-center text-md-left">
+                                                <div class="source-name">James Doe</div>
+                                                <div class="soure-title">Co-Founder, Startup Week</div>
+                                            </div>
+                                        </div>
+                                        <!--//source-->
+                                    </div>
+                                    <!--//carousel-item-->
+                                    <div class="carousel-item">
+                                        <blockquote class="quote p-4 theme-bg-light">
+                                            "Highly recommended consectetur adipiscing elit. Proin et auctor dolor, sed
+                                            venenatis massa. Vestibulum ullamcorper lobortis nisi non placerat praesent
+                                            mauris neque"
+                                        </blockquote>
+                                        <!--//item-->
+                                        <div class="source media flex-column flex-md-row align-items-center">
+                                            <img class="source-profile mr-md-3"
+                                                src="/static/images/profiles/profile-2.png" alt="image">
+                                            <div class="source-info media-body text-center text-md-left">
+                                                <div class="source-name">Jean Doe</div>
+                                                <div class="soure-title">Senior Developer, Ipsum Company</div>
+                                            </div>
+                                        </div>
+                                        <!--//source-->
+                                    </div>
+                                    <!--//carousel-item-->
+                                    <div class="carousel-item">
+                                        <blockquote class="quote p-4 theme-bg-light">
+                                            "Awesome! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+                                            euismod nunc porta urna facilisis tempor. Praesent mauris neque, viverra
+                                            quis erat vitae."
+                                        </blockquote>
+                                        <!--//item-->
+                                        <div class="source media flex-column flex-md-row align-items-center">
+                                            <img class="source-profile mr-md-3"
+                                                src="/static/images/profiles/profile-3.png" alt="image">
+                                            <div class="source-info media-body text-center text-md-left">
+                                                <div class="source-name">Andy Doe</div>
+                                                <div class="soure-title">Frontend Developer, Company Lorem</div>
+                                            </div>
+                                        </div>
+                                        <!--//source-->
+                                    </div>
+                                    <!--//carousel-item-->
+                                </div>
+                                <!--//carousel-inner-->
+                            </div>
+                            <!--//quotes-carousel-->
+
+                        </div>
+                        <!--//hero-quotes-->
+                    </div>
+                    <!--//promo-->
+                </div>
+                <!--col-->
+                <div class="col-12 col-md-5 mb-5 align-self-center">
+                    <div class="book-cover-holder">
+                        <img class="img-fluid book-cover" src="/static/images/devbook-cover.png" alt="book cover">
+                        <div class="book-badge d-inline-block shadow">
+                            Beta<br>Version
+                        </div>
+                    </div>
+                    <!--//book-cover-holder-->
+                </div>
+                <!--col-->
+            </div>
+            <!--//row-->
+        </div>
+        <!--//container-->
+    </section>
+    <!--//hero-section-->
+
+
+    <footer class="footer">
+
+        <div class="footer-bottom text-center py-5 theme-bg-primary">
+
+            <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
+            <small style="color: #fff;" class="copyright">Admin <i class="fas fa-heart" style="color: #fb866a;"></i> by
+                <a class="theme-link" href="https://raj-cv.herokuapp.com" target="_blank">Raj</a></small>
             <br>
+            <small>Site Designed by <a style="color: #fff;" href="http://themes.3rdwavemedia.com/">Xiaoying
+                    Riley</a></small>
 
-             <!-- Error message -->
-             {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <div class="h6" style="color: #2f2187; opacity: 3; text-align: center; padding-top: 1rem;">
-                    <em>{{ messages[0] }}</em>
-                </div>
-                {% endif %}
-             {% endwith %}
+        </div>
 
-            <!-- Registration Options -->
+    </footer>
 
-            <div class="segment">
-                <button class="unit" type="button">
-                    <a href="{{ url_for('github_login') }}">
-                        <i style="color: #180D06;" class="icon fa fa-github"></i>
-                    </a>    
-                </button>
-                <button class="unit" type="button">
-                    <a href="#" target="_blank">
-                        <i style="color: #49B164;" class="icon fa fa-google"></i>
-                    </a>
-                </button>
-                <button class="unit" type="button" >
-                    <a href="{{ url_for('onDev', link='fb login') }}" target="_blank">
-                        <i style="color: #4867AA;" class="icon fa fa-facebook"></i>
-                    </a>
-                </button>
-            </div>
-        
-        </form>
+    <!-- Javascript -->
+   
+    <!-- Install workbox -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 
-        <!-- Install Button -->
-        <button id="installButton" href="#">
-            Install as an App
-        </button>
-        
-        <!-- Login Form -->
-        <form method="post" action="{{ url_for('login') }}">
-            <div class="segment-bottom">
-                <h2>Log In</h2>
-            </div>
-            
-            <div class="input-group">   
-                <label>
-                    <input type="text" placeholder="Email Address" name="email" value="{{ email }}" required/>
-                </label>
-                <button class="unit" type="submit" onclick="{{ url_for('login') }}">
-                    <i class="icon fa fa-arrow-right"></i>
-                </button>
-            </div>
-            
-        </form>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/install.js') }}"></script>
-        <!-- SCRIPT FOR TEST BUTTONS -->
-        <script>
-            function testButton() {
-                alert("Btn clicked ");
-            }
-        </script>
-        <!-- Script for  Show and Hide password-->
-        <script src="/static/js/password.js"></script>
-        <script src="/static/js/app.js"></script>
-    </body>
+    <script src="/static/plugins/jquery-3.4.1.min.js"></script>
+    <script src="/static/plugins/popper.min.js"></script>
+    <script src="/static/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/plugins/jquery.scrollTo.min.js"></script>
+    <script src="/static/plugins/back-to-top.js"></script>
+
+</body>
+
 </html>
