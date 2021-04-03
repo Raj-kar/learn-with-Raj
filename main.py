@@ -15,7 +15,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_dance.contrib.github import make_github_blueprint, github
 
 # For Github local authentication !
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+# os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 # My Modules import
 from verifyDetails import VerifyDetails
@@ -28,12 +28,12 @@ app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
 
 # Connect to DB Locally
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///students.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///students.db")
 # db = SQLAlchemy(app)
 
 # for server - TODO - active before deploy
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Github Register
@@ -136,13 +136,12 @@ def register():
 
 ## Verify-Otp Route
 otp = None
-
-
 @app.route('/verify-otp/<std_name>/<std_email>/<std_password>', methods=["GET", "POST"])
 def verify_otp(std_name, std_email, std_password):
     global otp
 
     if "service" not in request.base_url and request.method == "GET":
+
         flash(f"An OTP is send to your email ({std_email}) address.")
         otp = randint(123456, 987654)
         send_otp = SendOTP(user_name=std_name, user_email=std_email, otp=otp)
@@ -390,6 +389,6 @@ def onDev(link):
 
 
 if __name__ == "__main__":
-    # app.run(debug=True) # For Development 
-    app.run()  # For Production TODO - change defore deploy
+    app.run(debug=True) # For Development 
+    # app.run()  # For Production TODO - change defore deploy
  
