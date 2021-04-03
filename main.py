@@ -292,7 +292,7 @@ def github_login():
 @login_required
 def home():
     assignments = Assignments.query.order_by(Assignments.id.asc())  # asc
-    return render_template("home.html", heading="Assigments", posts=assignments)
+    return render_template("home.html", posts=assignments)
 
 
 # Post Route
@@ -300,7 +300,7 @@ def home():
 @login_required
 def post(post_id):
     requested_post = Assignments.query.get(post_id)
-    return render_template("post.html", heading=requested_post.title, post=requested_post)
+    return render_template("post.html", post=requested_post)
 
 
 @app.route('/search/search-post', methods=["GET", "POST"])
@@ -321,7 +321,7 @@ def search_post():
                 count += 1
                 ass_list.append(each)
 
-        return render_template("home.html", heading=f"Find {count} results on {search_key} .", posts=ass_list)
+        return render_template("home.html", heading=f"Found {count} results on {search_key} .", posts=ass_list)
 
 
 # Logout Route
@@ -447,6 +447,10 @@ def admin_only():
 def onDev(link):
     return render_template("develop.html", msg=link)
 
+
+@app.route('/test')
+def test():
+    return render_template("blog-base.html")
 
 if __name__ == "__main__":
     # app.run(debug=True)  # For Development
