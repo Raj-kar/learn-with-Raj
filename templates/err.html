@@ -16,10 +16,20 @@
             margin-right: auto;
             width: 700px; height: 700px;
         }
+        a {
+            color: #FFAC0A;
+            display: flex;
+            margin: auto;
+            justify-content: center;
+            font-size: 2rem;
+        }
         @media only screen and (max-width: 600px) {
             .center {
                 margin-top: 40%;
                 width: 350px; height: 350px;
+            }
+            a {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -30,10 +40,16 @@
         <lottie-player class="center" src="https://assets10.lottiefiles.com/packages/lf20_ttaj1ayc.json"
             background="transparent"
             speed="1" loop autoplay></lottie-player>
+        <script>
+            setTimeout(() => {
+                document.getElementsByTagName("a")[0].style.color = "#E0E0E0";
+            }, 1);
+        </script>
     {% else %}
         <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
         <lottie-player class="center" src="https://assets5.lottiefiles.com/packages/lf20_Cu88f9.json" background="transparent" speed="1"
             loop autoplay></lottie-player>
     {% endif %}
+    <a href="{{ url_for('login') }}">BACK TO HOMEPAGE</a>
 </body>
 </html>

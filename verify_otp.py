@@ -1,3 +1,4 @@
+from random import randint
 import smtplib
 from datetime import date
 from email.mime.multipart import MIMEMultipart
@@ -11,11 +12,15 @@ class SendOTP:
         self.user_name = user_name
         self.user_email = user_email
         self.otp = otp
-
+        
         # Create message container - the correct MIME type is multipart/alternative.
         self.msg = MIMEMultipart('alternative')
         self.msg['Subject'] = "Verify Email for Registration"
         self.today = date.today().strftime("%B %d, %Y")
+
+    # def create_OTP(self):
+    #     self.otp = randint(123456, 987654)
+        # print(self.otp)
 
     def register_msgBody(self):
         # Create the body of the message (a plain-text and an HTML version).
@@ -77,7 +82,7 @@ class SendOTP:
         # the HTML message, is best and preferred.
         self.msg.attach(self.part2)
 
-    def send_otp(self):
+    def send_OTP(self):
         with smtplib.SMTP("smtp.gmail.com") as connection:
             # print("start SMPTLIB")
             connection.starttls()
@@ -86,4 +91,9 @@ class SendOTP:
             connection.sendmail(from_addr=email, to_addrs={self.user_email},
                                 msg=self.msg.as_string())
             # print("send email")
-            
+    
+    # def verify_OTP(self, user_otp):
+    #     print(self.otp, user_otp)
+    #     if self.otp == user_otp:
+    #         return True
+    #     return False

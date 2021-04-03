@@ -62,21 +62,14 @@
                                 href="{{ url_for('register') }}">Register
                                 Now</a>
                             <a class="btn btn-secondary" href="{{ url_for('login') }}">Login</a>
-
+                            <!-- Install Button -->
+                            <a style="background-color:#5cb377;" hidden id="installButton" class="btn btn-primary"
+                                href="{{ url_for('login') }}">Install as an
+                                App</a>
                         </div>
                         <!--//cta-holder-->
-
-                        <!--  message -->
-                        {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                        <div class="h6"
-                            style="color: #5CB377; font-weight: 700; opacity: 3; text-align: center; padding-top:
-                            1rem;">
-                            <em>{{ messages[0] }}</em>
-                        </div>
-                        {% endif %}
-                        {% endwith %}
-
+                        <br>
+                        
                         <div class="hero-quotes mt-5">
                             <div id="quotes-carousel" class="quotes-carousel carousel slide carousel-fade mb-5"
                                 data-ride="carousel" data-interval="8000">
@@ -187,8 +180,9 @@
 
     <!-- Javascript -->
    
-    <!-- Install workbox -->
+    <!-- script for workbox and install Button-->
     <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/install.js') }}"></script>
 
     <script src="/static/plugins/jquery-3.4.1.min.js"></script>
     <script src="/static/plugins/popper.min.js"></script>

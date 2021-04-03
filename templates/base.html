@@ -16,12 +16,14 @@
 
     <!-- manifest -->
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-
+    
 </head>
 
 <body>
     <!-- Resgistration Form -->
-    <form method="post" action={% block action %} action {% endblock %}>
+    <form method="POST" action={% block action %}
+        {{ url_for('verify_otp', std_name = name, std_email=email, std_password=password) }} 
+    {% endblock %}>
 
         <!-- Heading -->
         <div class="segment">
@@ -41,11 +43,18 @@
 
         <!--  message -->
         {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <div class="h6" style="color: #49B164; font-weight: 700; opacity: 3; text-align: center; padding-top: 1rem;">
-            <em>{{ messages[0] }}</em>
-        </div>
-        {% endif %}
+            {% if messages %}
+                {% if "Wrong" in messages[0] %}
+                <!-- Reset Password  -->
+                <script>
+                    document.getElementById("link").innerHTML = "Reset Your Password";
+                    document.getElementById("link").href = "/reset-password"
+                </script>
+                {% endif %}
+            <div class="h6" style="color: #49B164; font-weight: 700; opacity: 3; text-align: center; padding-top: 1rem;">
+                <em>{{ messages[0] }}</em>
+            </div>
+            {% endif %}
         {% endwith %}
 
         <!-- Registration Options -->
@@ -71,12 +80,13 @@
     </form>
 
     <!-- Install Button -->
-    <button id="installButton" href="#">
+    <button id="installButton" href="#" hidden>
         Install as an App
     </button>
 
-    <!-- Install workbox -->
-    <script type="text/javascript" src="{{ url_for('static', filename='js/install.js') }}"></script>
+   <!-- script for workbox and install Button-->
+   <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+   <script type="text/javascript" src="{{ url_for('static', filename='js/install.js') }}"></script>
 
     <!-- Script for  Show and Hide password-->
     <script src="/static/js/password.js"></script>

@@ -15,7 +15,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_dance.contrib.github import make_github_blueprint, github
 
 # For Github local authentication !
-# os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 # My Modules import
 from verifyDetails import VerifyDetails
@@ -136,36 +136,36 @@ def register():
 
 ## Verify-Otp Route
 otp = None
+
+
 @app.route('/verify-otp/<std_name>/<std_email>/<std_password>', methods=["GET", "POST"])
 def verify_otp(std_name, std_email, std_password):
     global otp
 
-    if request.method == "GET":
+    if "service" not in request.base_url and request.method == "GET":
         flash(f"An OTP is send to your email ({std_email}) address.")
         otp = randint(123456, 987654)
-        # print(otp) # TODO - For Testing
         send_otp = SendOTP(user_name=std_name, user_email=std_email, otp=otp)
         send_otp.register_msgBody()
-        send_otp.send_otp()
+        send_otp.send_OTP()
 
     if request.method == "POST":
         enter_otp = int(request.form.get("otp"))
-        if enter_otp == otp:
+        if otp == enter_otp:
             new_student = Student(name=std_name, email=std_email,
                                   password=std_password, date_of_join=date.today().strftime("%B %d, %Y"))
             db.session.add(new_student)
             db.session.commit()
-            
+
             # This line will authenticate the user with Flask-Login
             login_user(new_student)
-            
+
             return redirect(url_for('home'))
         else:
             flash("OTP mismatched, another OTP send to your email address.")
             return redirect(url_for('verify_otp', std_name=std_name, std_email=std_email, std_password=std_password))
 
     return render_template("email-verification.html", name=std_name, email=std_email, password=std_password)
-
 
 ## Login Route
 @app.route('/login', methods=["POST", "GET"])
@@ -187,6 +187,9 @@ def login():
                     if check_password_hash(std.password, user_pass):
                         login_user(std)
                         return redirect(url_for('home'))
+                    else:
+                        flash("Wrong Credentials !")
+                        return redirect(url_for('login'))
             flash("Register for a free account and start exploring.")
             return redirect(url_for('register'))
         else:
@@ -195,6 +198,10 @@ def login():
     
     return render_template("login.html")
 
+
+@app.route('/reset-password')
+def reset_password():
+    return "hello"
 
 @app.route('/github')
 def github_login():
@@ -361,7 +368,7 @@ def show_student_table():
 # Service worker route
 @app.route('/service-worker.js')
 def sw():
-    return app.send_static_file('service-worker.js')
+    return app.send_static_file('service-worker.js'), 200, {'Content-Type': 'text/javascript'}
 
     
 ## Errors Route
