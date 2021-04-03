@@ -219,8 +219,8 @@ def github_login():
         
         # This line will authenticate the user with Flask-Login
         login_user(new_student)
-        flash("Sign in with Github sucessfull.")
-        return redirect(url_for('register'))
+        flash("Sign in with Github successfull.")
+        return redirect(url_for('index'))
 
 ## Home Route
 @app.route('/home-page')
