@@ -41,24 +41,29 @@
         <!-- link tag -->
         {% block link %} <a href=""></a> {% endblock %}
 
+       
         <!--  message -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% if "Wrong" in messages[0] %}
-                <!-- Reset Password  -->
-                <script>
-                    document.getElementById("link").innerHTML = "Reset Your Password";
-                    document.getElementById("link").href = "/reset-password"
-                </script>
+        {% block message %}
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% if "Wrong" in messages[0] %}
+                    <!-- Reset Password  -->
+                    <script>
+                        document.getElementById("link").innerHTML = "";
+                        setTimeout(() => {
+                            document.getElementById("resetButton").style.display = "flex";
+                        }, 200);
+                    </script>
+                    {% endif %}
+                <div class="h6" style="color: #49B164; font-weight: 700; opacity: 3; text-align: center; padding-top: 1rem;">
+                    <em>{{ messages[0] }}</em>
+                </div>
                 {% endif %}
-            <div class="h6" style="color: #49B164; font-weight: 700; opacity: 3; text-align: center; padding-top: 1rem;">
-                <em>{{ messages[0] }}</em>
-            </div>
-            {% endif %}
-        {% endwith %}
+            {% endwith %}
+        {% endblock %}
 
         <!-- Registration Options -->
-
+    
         <div class="segment">
             <button class="unit" type="button">
                 <a href="{{ url_for('github_login') }}">
@@ -79,6 +84,12 @@
 
     </form>
 
+    {% block reset_btn %}  
+        <button type="button" id="resetButton">
+            <a style="color: #ae1100; text-decoration: none;" href="{{ url_for('reset_password') }}">Forgot Your password ?</a>
+        </button>
+    {% endblock %}
+    <br>
     <!-- Install Button -->
     <button id="installButton" href="#" hidden>
         Install as an App

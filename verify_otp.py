@@ -18,10 +18,6 @@ class SendOTP:
         self.msg['Subject'] = "Verify Email for Registration"
         self.today = date.today().strftime("%B %d, %Y")
 
-    # def create_OTP(self):
-    #     self.otp = randint(123456, 987654)
-        # print(self.otp)
-
     def register_msgBody(self):
         # Create the body of the message (a plain-text and an HTML version).
         self.html = f"""\
@@ -62,9 +58,9 @@ class SendOTP:
                     <h3>Your OTP is <a href="#"><em>{self.otp}</em></a>.</h3> <br><br>
                     <p>If you didn't intend this, just ignore this message</p>
 
-                    <p><a href="https://code-with-raj.herokuapp.com/">Visit</a> our website, for more awesome contents.</p>
+                    <p><a href="https://pyraj.herokuapp.com/">Visit</a> our website, for more awesome contents.</p>
                     <code>
-                        - Code-With-Raj <br>
+                        - PyRaj <br>
                         - Raj <br>
                         - {self.today}
                     </code>
@@ -91,9 +87,3 @@ class SendOTP:
             connection.sendmail(from_addr=email, to_addrs={self.user_email},
                                 msg=self.msg.as_string())
             # print("send email")
-    
-    # def verify_OTP(self, user_otp):
-    #     print(self.otp, user_otp)
-    #     if self.otp == user_otp:
-    #         return True
-    #     return False

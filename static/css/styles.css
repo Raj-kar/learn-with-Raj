@@ -145,3 +145,11 @@ button.red {
     margin: auto;
     color: #2f2187;
 }
+
+#resetButton {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    color: #ae1100;
+    display: none;
+}
