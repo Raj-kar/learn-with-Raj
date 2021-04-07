@@ -13,6 +13,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_dance.contrib.github import make_github_blueprint, github
+from flask_gravatar import Gravatar
 
 # For Github local authentication !
 # os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -448,9 +449,43 @@ def onDev(link):
     return render_template("develop.html", msg=link)
 
 
-@app.route('/test')
-def test():
-    return render_template("blog-base.html")
+@app.route('/show-profile')
+@login_required
+def show_profile():
+    gravatar = Gravatar(app,
+                        size=100,
+                        rating='g',
+                        default='retro',
+                        force_default=False,
+                        use_ssl=False,
+                        base_url=None)
+    return render_template("user-profile.html", gravatar=gravatar)
+
+
+@app.route('/change-password', methods = ["POST", "GET"])
+@login_required
+def change_pass():
+    if request.method == "POST":
+        current_pass = request.form.get("curr-pass")
+        
+        if check_password_hash(current_user.password, current_pass):
+            new_pass = request.form.get("new-pass")
+            confirm_pass = request.form.get("confirm-pass")
+            verify_pass = VerifyDetails(password=new_pass)
+
+            if verify_pass.verifyPassword():
+                if new_pass == confirm_pass:
+                    flash("Your Password Changed Sucessfully !")
+                    return redirect(url_for('show_profile'))
+                else:
+                    flash("New Password and Confirm Password doesn't matched.")
+                    return redirect(url_for('change_pass'))
+        else:
+            flash("You Have entered an incorrect Password.")
+            return redirect(url_for('change_pass'))
+    
+    return render_template("change-pass.html")
+
 
 if __name__ == "__main__":
     # app.run(debug=True)  # For Development

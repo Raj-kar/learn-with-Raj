@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} change your password {% endblock %}
+{% block heading %} Change your Password {% endblock %}
+{% block action %} {{ url_for('change_pass') }} {% endblock %}
+
+{% block form %}
+<label>
+    <div>
+        <input id="password-field1" type="password" placeholder="Current Password" name="curr-pass"            required />
+        <span toggle="#password-field1" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+    </div>
+</label>
+<label>
+    <div>
+        <input id="password-field2" type="password" placeholder="New Password" name="new-pass" required />
+        <span toggle="#password-field2" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+    </div>
+</label>
+<label>
+    <div>
+        <input id="password-field3" type="password" placeholder="Confirm Password" name="confirm-pass" required />
+        <span toggle="#password-field3" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+    </div>
+</label>
+{% endblock %}
+
+{% block button %}
+<button class="red" type="submit" onclick="{{ url_for('reset_password') }}">
+    <i class="icon fa fa-user"></i>
+    Change Password
+</button>
+{% endblock %}
+
+{% block link %}
+<div style="text-align:center">
+    <a style="font-weight: bold;" href="{{ url_for('home') }}">Back to Home page</a>
+</div>
+{% endblock %}
+{%block other_register_option %} {% endblock %}

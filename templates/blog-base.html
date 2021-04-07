@@ -23,6 +23,8 @@
 
     <!-- Prism CSS -->
     <link rel="stylesheet" href="/static/prism/prism.css">
+
+    {% block extraLink %}   {% endblock %}
 </head>
 
 <body>
@@ -47,14 +49,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('show_profile') }}">Profile</a>
+                    </li>
+                    <li class="nav-item">
                         {% if current_user.id == 1: %}
                         <a class="nav-link" href="{{ url_for('create_assignment') }}">Admin</a>
                         {% else %}
                         <a class="nav-link" href="{{ url_for('onDev', link='About') }}">About</a>
                         {% endif %}
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('onDev', link='Contact') }}">Contact</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
@@ -64,16 +66,17 @@
         </div>
     </nav>
 
+
+    
     <!-- Page Content -->
     <div class="container">
-
         <div class="row">
-
+            {% block profile %} {% endblock %}
             <!-- Blog Entries Column -->
             <div class="col-md-8">
                 <h1 class="my-4">{% block heading %} {% endblock %} </h1>
                 {% block details %} {% endblock %}
-
+                
                 {% block main_content %} {% endblock %}
 
                 {% block edit %} {% endblock %}
@@ -92,7 +95,7 @@
             </div>
 
             <!-- Sidebar Widgets Column -->
-
+            {% block search_bar %}
             <div class="col-md-4">
                 <!-- Search Widget -->
                 <div class="card my-4">
@@ -111,8 +114,10 @@
                         </div>
                     </form>
                 </div>
+                {% endblock %}
 
-                <!-- Categories Widget -->
+                {% block categories %}
+                <!-- Categories Widget -->  
                 <div class="card my-4">
                     <h5 class="card-header">Categories</h5>
                     <div class="card-body">
@@ -146,8 +151,10 @@
                         </div>
                     </div>
                 </div>
+                {% endblock %}
 
-                <!-- Side Widget -->
+                {% block notice %}
+                <!-- Side Widget -->    
                 <div class="card my-4">
                     <h5 class="card-header">Important Notices</h5>
                     <div class="card-body">
@@ -158,6 +165,7 @@
                         </ul>
                     </div>
                 </div>
+                {% endblock %}
 
             </div>
 
